@@ -31,7 +31,7 @@ import random
 import json
 
 class UsersAll(generics.CreateAPIView):
-    permission_classes = (permissions.IsAuthenticated,)
+    permission_classes = (permissions.IsAuthenticated,) #Si no estoy autenticado no puedo acceder, (pasa el token)
     def get(self, request, *args, **kwargs):
         profiles = Profiles.objects.filter(user__is_active = 1).order_by("id")
         lista = ProfilesSerializer(profiles, many=True).data
@@ -39,15 +39,14 @@ class UsersAll(generics.CreateAPIView):
         return Response(lista, 200)
 
 class UsersView(generics.CreateAPIView):
+
     #Obtener usuario por ID
-    # permission_classes = (permissions.IsAuthenticated,)
     def get(self, request, *args, **kwargs):
         user = get_object_or_404(Profiles, id = request.GET.get("id"))
         user = ProfilesSerializer(user, many=False).data
 
         return Response(user, 200)
-    
-    #Registrar nuevo usuario
+
     @transaction.atomic
     def post(self, request, *args, **kwargs):
 
@@ -59,7 +58,7 @@ class UsersView(generics.CreateAPIView):
             last_name = request.data['last_name']
             email = request.data['email']
             password = request.data['password']
-            #Valida si existe el usuario o bien el email registrado
+
             existing_user = User.objects.filter(email=email).first()
 
             if existing_user:
@@ -80,21 +79,23 @@ class UsersView(generics.CreateAPIView):
             group.user_set.add(user)
             user.save()
 
+            
+
             #Create a profile for the user
             profile = Profiles.objects.create(user=user,
-                                              matricula= request.data["matricula"],
-                                              curp= request.data["curp"].upper(),
-                                              rfc= request.data["rfc"].upper(),
-                                              fecha_nacimiento= request.data["fecha_nacimiento"],
-                                              edad= request.data["edad"],
-                                              telefono= request.data["telefono"],
-                                              ocupacion= request.data["ocupacion"])
+                                                matricula = request.data["matricula"],
+                                                curp = request.data["curp"].upper(),
+                                                rfc = request.data["rfc"].upper(),
+                                                fecha_nacimiento = request.data["fecha_nacimiento"],
+                                                edad = request.data["edad"],
+                                                telefono = request.data["telefono"],
+                                                ocupacion = request.data["ocupacion"])
             profile.save()
 
             return Response({"profile_created_id": profile.id }, 201)
 
         return Response(user.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
 class UsersViewEdit(generics.CreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
     def put(self, request, *args, **kwargs):
@@ -113,13 +114,13 @@ class UsersViewEdit(generics.CreateAPIView):
         temp.last_name = request.data["last_name"]
         temp.save()
         user = ProfilesSerializer(profile, many=False).data
-
+ 
         return Response(user,200)
-    
+
     def delete(self, request, *args, **kwargs):
         profile = get_object_or_404(Profiles, id=request.GET.get("id"))
         try:
             profile.user.delete()
-            return Response({"details":"Usuario eliminado"},200)
+            return Response({"details": "Usuario eliminado"},200)
         except Exception as e:
-            return Response({"details":"Algo pasó al eliminar"},400)
+            return Response({"details": "Algo pasó al eliminar"}, 400)

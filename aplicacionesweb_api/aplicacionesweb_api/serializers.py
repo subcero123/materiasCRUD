@@ -23,7 +23,6 @@ class ProfilesAllSerializer(serializers.ModelSerializer):
         model = Profiles
         fields = '__all__'
         depth = 1
-
 class MateriasSerializer(serializers.ModelSerializer):
     class Meta:
         model = Materias

@@ -30,14 +30,6 @@ import string
 import random
 import json
 
-from rest_framework import generics, permissions, status
-from rest_framework.response import Response
-from django.shortcuts import get_object_or_404
-from django.db import transaction
-from .models import Profiles, Materias
-from .serializers import ProfilesSerializer, UserSerializer, MateriasSerializer
-from django.contrib.auth.models import User, Group
-
 class MateriasAll(generics.ListCreateAPIView):
     permission_classes = (permissions.IsAuthenticated,)
 
@@ -55,7 +47,7 @@ class MateriasAll(generics.ListCreateAPIView):
             nombre_materia = request.data['nombre_materia']
             seccion = request.data['seccion']
             dias = request.data['dias']
-            hora_inicio = request.data['hora_inicio']
+            hora_inicial = request.data['hora_inicial']
             hora_final = request.data['hora_final']
             salon = request.data['salon']
             programa_educativo = request.data['programa_educativo']
@@ -71,7 +63,7 @@ class MateriasAll(generics.ListCreateAPIView):
                 nombre_materia=nombre_materia,
                 seccion=seccion,
                 dias=dias,
-                hora_inicio=hora_inicio,
+                hora_inicial=hora_inicial,
                 hora_final=hora_final,
                 salon=salon,
                 programa_educativo=programa_educativo
@@ -97,7 +89,7 @@ class MateriasViewEdit(generics.RetrieveUpdateDestroyAPIView):
         materia.nombre_materia = request.data["nombre_materia"]
         materia.seccion = request.data["seccion"]
         materia.dias = request.data["dias"]
-        materia.hora_inicio = request.data["hora_inicio"]
+        materia.hora_inicial = request.data["hora_inicial"]
         materia.hora_final = request.data["hora_final"]
         materia.salon = request.data["salon"]
         materia.programa_educativo = request.data["programa_educativo"]
