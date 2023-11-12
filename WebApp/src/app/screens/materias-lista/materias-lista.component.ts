@@ -106,7 +106,7 @@ export class MateriasListaComponent {
   }
 
   public goLista(){
-    this.router.navigate(["materias-lista"]);
+    this.router.navigate(["home"]);
   }
 
   //Función para eliminar

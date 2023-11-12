@@ -49,7 +49,9 @@ export class RegistrarMateriasComponent {
       (response)=>{
         this.materias = response;
         //Agregamos valores faltantes
-        console.log("Datos user: ", this.materias);
+        this.materias.hora_inicial = response.hora_inicial.slice(0, -3);
+        this.materias.hora_final = response.hora_final.slice(0, -3);
+        console.log("Datos materias: ", this.materias);
       }, (error)=>{
         alert("No se pudieron obtener los datos del usuario a editar")
       }
