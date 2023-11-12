@@ -30,7 +30,9 @@ import {MatSelectModule} from '@angular/material/select';
 import { HttpClientModule } from '@angular/common/http';
 import { EliminarUserModalComponent } from './modals/eliminar-user-modal/eliminar-user-modal.component';
 import { RegistrarMateriasComponent } from './screens/registrar-materias/registrar-materias.component';
-import { MateriasListaComponent } from './screens/materias-lista/materias-lista.component'
+import { MateriasListaComponent } from './screens/materias-lista/materias-lista.component';
+import { EliminarMateriaComponent } from './modals/eliminar-materia/eliminar-materia.component';
+import { EditarMateriaComponent } from './modals/editar-materia/editar-materia.component'
 
 
 @NgModule({
@@ -42,6 +44,8 @@ import { MateriasListaComponent } from './screens/materias-lista/materias-lista.
     EliminarUserModalComponent,
     RegistrarMateriasComponent,
     MateriasListaComponent,
+    EliminarMateriaComponent,
+    EditarMateriaComponent,
   ],
   imports: [
     BrowserModule,

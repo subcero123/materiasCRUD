@@ -84,7 +84,9 @@ export class MateriasService {
     //servicio para registrar un nuevo usuario
 
     public registrarMateria (data: any): Observable <any>{
-      return this.http.post<any>(`${environment.url_api}/materias/`,data, httpOptions);
+      var token = this.facadeService.getSessionToken();
+      var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+      return this.http.post<any>(`${environment.url_api}/materias/`,data, {headers:headers});
     }
   
     public obtenerListaMaterias (): Observable <any>{
@@ -95,12 +97,20 @@ export class MateriasService {
   
     //Obtener solo un usuario de acuerdo a su ID
     public getMateriaByID(idMateria: Number){
-      return this.http.get<any>(`${environment.url_api}/materias-edit/?id=${idMateria}`, httpOptions);
+      var token = this.facadeService.getSessionToken();
+      var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+      return this.http.get<any>(`${environment.url_api}/materias-edit/?id=${idMateria}`, {headers:headers});
     }
   
     public editarMateria (data: any): Observable <any>{
       var token = this.facadeService.getSessionToken();
       var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
-      return this.http.put<any>(`${environment.url_api}/materia-edit/`, data, {headers:headers});
+      return this.http.put<any>(`${environment.url_api}/materias-edit/`, data, {headers:headers});
+    }
+
+    public eliminarMateria(idMateria: number): Observable <any>{
+      var token = this.facadeService.getSessionToken();
+      var headers = new HttpHeaders({ 'Content-Type': 'application/json' , 'Authorization': 'Bearer '+token});
+      return this.http.delete<any>(`${environment.url_api}/materias-edit/?id=${idMateria}`,{headers:headers});
     }
 }

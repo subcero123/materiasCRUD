@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MateriasService } from 'src/app/services/materias.service';
 import { Location } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EditarMateriaComponent } from 'src/app/modals/editar-materia/editar-materia.component';
+import { MatDialog } from '@angular/material/dialog';
 import { error } from 'jquery';
 
 declare var $:any;
@@ -24,6 +26,7 @@ export class RegistrarMateriasComponent {
     private location: Location,
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
@@ -70,14 +73,14 @@ export class RegistrarMateriasComponent {
       (response)=>{
         alert("Materia registrada correctamente");
         console.log("Materia registrada: ", response);
-        this.router.navigate(["/"]);
+        this.router.navigate(["/materias-lista"]);
       }, (error)=>{
         alert("No se pudo registrar")
       }
     )
   }
 
-  public actualizar(){
+  public actualizar2(){
     //Validar
     this.errors = []
 
@@ -91,10 +94,28 @@ export class RegistrarMateriasComponent {
         alert("Materia editada correctamente");
         console.log("Materia editada", response);
         //Si se edito, entonces vamos al home
-        this.router.navigate(["home"]);
+        this.router.navigate(["materias-lista"]);
       }, (error)=>{
         alert("No se pudo editar")
       }
     );
+  }
+
+  public actualizar(){
+    const dialogRef = this.dialog.open(EditarMateriaComponent,{
+      data: this.materias, //Se pasan valores a través del componente
+      height: '268px',
+      width: '328px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.isDelete){
+        console.log("Materia actualizada");
+        //Recargar página
+        this.router.navigate(["materias-lista"]);
+      }else{
+        console.log("No se actualizó la materia");
+      }
+    });
   }
 }

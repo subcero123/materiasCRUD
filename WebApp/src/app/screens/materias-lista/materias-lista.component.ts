@@ -3,10 +3,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
-import { EliminarUserModalComponent } from 'src/app/modals/eliminar-user-modal/eliminar-user-modal.component';
 import { FacadeService } from 'src/app/services/facade.service';
 import { MateriasService } from 'src/app/services/materias.service';
 import { Location } from '@angular/common';
+import { EliminarMateriaComponent } from 'src/app/modals/eliminar-materia/eliminar-materia.component';
 
 @Component({
   selector: 'app-materias-lista',
@@ -18,7 +18,7 @@ export class MateriasListaComponent {
 
   public lista_materias: any[] = [];
 
-  displayedColumns: string[] = ['NRC', 'nombre', 'seccion', 'dias', 'hora_inicial', 'hora_final', 'salon', 'programa_educativo','editar', 'eliminar'];
+  displayedColumns: string[] = ['nrc', 'nombre', 'seccion', 'dias', 'hora_inicial', 'hora_final', 'salon', 'programa_educativo','editar', 'eliminar'];
   dataSource = new MatTableDataSource<DatosMateria>(this.lista_materias as DatosMateria[]);
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -111,7 +111,7 @@ export class MateriasListaComponent {
 
   //Función para eliminar
   public delete(idMateria: number){
-    const dialogRef = this.dialog.open(EliminarUserModalComponent,{
+    const dialogRef = this.dialog.open(EliminarMateriaComponent,{
       data: {id: idMateria}, //Se pasan valores a través del componente
       height: '268px',
       width: '328px',
